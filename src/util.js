@@ -9,6 +9,7 @@ const selectCalendar = (calenderId) => {
     return calendarIDs[calenderId.toLowerCase()];
 };
 
+// print more compact calendar information
 const printc = (calendarEntry) => {
     console.log(" --------------Event---------------");
     console.log("|", calendarEntry.summary);
