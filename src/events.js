@@ -13,17 +13,17 @@ const calendar = google.calendar({ version: "v3" });
  * @returns 1 on success and 0 on failure
  */
 const insertEvent = async (event, calendarId = "summer") => {
-    try {
-        const response = await calendar.events.insert({
-            auth,
-            calendarId: selectCalendar(calendarId),
-            resource: event,
-        });
+  try {
+    const response = await calendar.events.insert({
+      auth,
+      calendarId: selectCalendar(calendarId),
+      resource: event,
+    });
 
-        return response["status"] == 200 ? 1 : 0;
-    } catch (error) {
-        return console.error(`Error at insertEvent --> ${error}`);
-    }
+    return response["status"] == 200 ? 1 : 0;
+  } catch (error) {
+    return console.error(`Error at insertEvent --> ${error}`);
+  }
 };
 
 /**
@@ -34,19 +34,19 @@ const insertEvent = async (event, calendarId = "summer") => {
  * @returns list of all events from calendarId. 0 on failure.
  */
 const getEvents = async (start, end, calendarId = "summer") => {
-    try {
-        const response = await calendar.events.list({
-            auth: auth,
-            calendarId: selectCalendar(calendarId),
-            timeMin: start,
-            timeMax: end,
-            timeZone: process.env.TIMEZONE,
-        });
+  try {
+    const response = await calendar.events.list({
+      auth: auth,
+      calendarId: selectCalendar(calendarId),
+      timeMin: start,
+      timeMax: end,
+      timeZone: process.env.TIMEZONE,
+    });
 
-        return response["data"]["items"];
-    } catch (error) {
-        return console.log(`Error at getEvents --> ${error}`);
-    }
+    return response["data"]["items"];
+  } catch (error) {
+    return console.log(`Error at getEvents --> ${error}`);
+  }
 };
 
 // Delete an event from eventID
