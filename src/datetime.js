@@ -11,22 +11,22 @@ const moment = require("moment");
  * @returns [start, end]
  */
 const createWindow = (n, months = false, years = false) => {
-    if (months) {
-        return [
-            moment().subtract(n, "months").format(process.env.TIME_FORMAT),
-            moment().add(n, "months").format(process.env.TIME_FORMAT),
-        ];
-    } else if (years) {
-        return [
-            moment().subtract(n, "years").format(process.env.TIME_FORMAT),
-            moment().add(n, "years").format(process.env.TIME_FORMAT),
-        ];
-    } else {
-        return [
-            moment().subtract(n, "days").format(process.env.TIME_FORMAT),
-            moment().add(n, "days").format(process.env.TIME_FORMAT),
-        ];
-    }
+  if (months) {
+    return [
+      moment().subtract(n, "months").format(process.env.TIME_FORMAT),
+      moment().add(n, "months").format(process.env.TIME_FORMAT),
+    ];
+  } else if (years) {
+    return [
+      moment().subtract(n, "years").format(process.env.TIME_FORMAT),
+      moment().add(n, "years").format(process.env.TIME_FORMAT),
+    ];
+  } else {
+    return [
+      moment().subtract(n, "days").format(process.env.TIME_FORMAT),
+      moment().add(n, "days").format(process.env.TIME_FORMAT),
+    ];
+  }
 };
 
 /**
@@ -35,10 +35,10 @@ const createWindow = (n, months = false, years = false) => {
  * @returns [start, end] start and end values of duration in correct format
  */
 const eventDuration = (n) => {
-    return [
-        moment().format(process.env.TIME_FORMAT),
-        moment().add(n, "hours").format(process.env.TIME_FORMAT),
-    ];
+  return [
+    moment().format(process.env.TIME_FORMAT),
+    moment().add(n, "hours").format(process.env.TIME_FORMAT),
+  ];
 };
 
 module.exports = { createWindow, eventDuration };
