@@ -2,15 +2,14 @@ import dotenv from "dotenv";
 import moment from "moment";
 dotenv.config();
 
-import { getNextWeeksEvents, getEvents } from "./src/events.js";
+import { getAllComingEvents, getEvents } from "./src/events.js";
 import { createWindow, eventDuration } from "./src/datetime.js";
 import { printc } from "./src/util.js";
 
-let [start, end] = eventDuration(2);
-
-// [start, end] = createWindow(100, false, false, true);
+// let [start, end] = createWindow(100, false, false, true);
 // start = moment().format(process.env.TIME_FORMAT);
 // end = moment().add(1, "week").format(process.env.TIME_FORMAT);
 
-const res = await getNextWeeksEvents();
+const twoWeeks = moment().add(2, "weeks").format(process.env.TIME_FORMAT);
+const res = await getAllComingEvents(twoWeeks);
 res.map((entry) => printc(entry));

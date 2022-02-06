@@ -68,14 +68,12 @@ export const getEvents = async (start, end, calendarId = "default") => {
 };
 
 /**
- * Return all events from all calendars for the next 7 days
+ * Return all events from all calendars until end. Defaults to one week
  * @returns [] - Array of objects containing event details
  */
-export const getNextWeeksEvents = async () => {
-  const [start, end] = [
-    moment().format(process.env.TIME_FORMAT),
-    moment().add(1, "week").format(process.env.TIME_FORMAT),
-  ];
+export const getAllComingEvents = async (end = null) => {
+  const start = moment().format(process.env.TIME_FORMAT);
+  if (!end) end = moment().add(1, "week").format(process.env.TIME_FORMAT);
 
   return [
     ...(await getEvents(start, end, "schedule")),
