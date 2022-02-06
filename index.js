@@ -1,27 +1,16 @@
-require("dotenv").config();
-const { insertEvent, getEvents } = require("./src/events");
-const { createWindow, eventDuration } = require("./src/datetime");
-const { printc } = require("./src/util");
+import dotenv from "dotenv";
+import moment from "moment";
+dotenv.config();
+
+import { getNextWeeksEvents, getEvents } from "./src/events.js";
+import { createWindow, eventDuration } from "./src/datetime.js";
+import { printc } from "./src/util.js";
 
 let [start, end] = eventDuration(2);
 
-// Event for Google Calendar
-const event = {
-  summary: "TESTING 🎈",
-  description: "This is a test run of the smart calendar beginnings",
-  start: {
-    dateTime: start,
-    timeZone: process.env.TIMEZONE,
-  },
-  end: {
-    dateTime: end,
-    timeZone: process.env.TIMEZONE,
-  },
-};
+// [start, end] = createWindow(100, false, false, true);
+// start = moment().format(process.env.TIME_FORMAT);
+// end = moment().add(1, "week").format(process.env.TIME_FORMAT);
 
-//insertEvent(event).catch(console.error);
-
-[start, end] = createWindow(100, false, false, true);
-getEvents(start, end, "schedule").then((res) => {
-  res.map((calendarEntry) => printc(calendarEntry));
-});
+const res = await getNextWeeksEvents();
+res.map((entry) => printc(entry));

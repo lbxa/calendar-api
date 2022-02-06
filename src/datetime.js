@@ -1,5 +1,6 @@
-require("dotenv").config();
-const moment = require("moment");
+import dotenv from "dotenv";
+import moment from "moment";
+dotenv.config();
 
 /**
  * Create a time window with the following format: YYYY-MM-DDTHH:mm:ss.SSSZ
@@ -10,7 +11,7 @@ const moment = require("moment");
  * @param {*} years select true if value of n is in years
  * @returns [start, end]
  */
-const createWindow = (n, months = false, years = false) => {
+export const createWindow = (n, months = false, years = false) => {
   if (months) {
     return [
       moment().subtract(n, "months").format(process.env.TIME_FORMAT),
@@ -34,11 +35,9 @@ const createWindow = (n, months = false, years = false) => {
  * @param {*} n real number representing how many hours the event lasted for
  * @returns [start, end] start and end values of duration in correct format
  */
-const eventDuration = (n) => {
+export const eventDuration = (n) => {
   return [
     moment().format(process.env.TIME_FORMAT),
     moment().add(n, "hours").format(process.env.TIME_FORMAT),
   ];
 };
-
-module.exports = { createWindow, eventDuration };

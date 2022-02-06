@@ -1,6 +1,7 @@
-require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config();
 
-const selectCalendar = (calenderId) => {
+export const selectCalendar = (calenderId) => {
   const calendarIDs = {
     summer: JSON.parse(process.env.CALENDARS).summer_id,
     schedule: JSON.parse(process.env.CALENDARS).schedule_id,
@@ -10,10 +11,11 @@ const selectCalendar = (calenderId) => {
 };
 
 // print more compact calendar information
-const printc = (calendarEntry) => {
-  console.log(" --------------Event---------------");
-  console.log("|", calendarEntry.summary);
-  console.log(" ----------------------------------");
+export const printc = (calendarEntry) => {
+  console.log(
+    `${calendarEntry.summary} (${
+      (calendarEntry.organizer && calendarEntry.organizer.displayName) ||
+      "Default"
+    })`
+  );
 };
-
-module.exports = { selectCalendar, printc };

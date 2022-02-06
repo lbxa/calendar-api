@@ -1,7 +1,9 @@
-require("dotenv").config();
-const { google } = require("googleapis");
-const { auth } = require("./auth");
-const { selectCalendar } = require("./util");
+import dotenv from "dotenv";
+dotenv.config();
+import { google } from "googleapis";
+import { auth } from "./auth.js";
+import { selectCalendar } from "../src/util.js";
+import moment from "moment";
 
 // Google calendar API settings
 const calendar = google.calendar({ version: "v3" });
@@ -12,7 +14,7 @@ const calendar = google.calendar({ version: "v3" });
  * @param {*} calendarId id pertaining to the calendar event is being added to
  * @returns 1 on success and 0 on failure
  */
-const insertEvent = async (event, calendarId = "summer") => {
+export const insertEvent = async (event, calendarId = "summer") => {
   try {
     const response = await calendar.events.insert({
       auth,
@@ -26,6 +28,22 @@ const insertEvent = async (event, calendarId = "summer") => {
   }
 };
 
+// Event for Google Calendar
+// const event = {
+//   summary: "TESTING 🎈",
+//   description: "This is a test run of the smart calendar beginnings",
+//   start: {
+//     dateTime: start,
+//     timeZone: process.env.TIMEZONE,
+//   },
+//   end: {
+//     dateTime: end,
+//     timeZone: process.env.TIMEZONE,
+//   },
+// };
+
+//insertEvent(event).catch(console.error);
+
 /**
  * Retrieve a list of all events from the calendar with @calendarId
  * @param {*} start start of the timespan for the events
@@ -33,7 +51,7 @@ const insertEvent = async (event, calendarId = "summer") => {
  * @param {*} calendarId
  * @returns list of all events from calendarId. 0 on failure.
  */
-const getEvents = async (start, end, calendarId = "summer") => {
+export const getEvents = async (start, end, calendarId = "default") => {
   try {
     const response = await calendar.events.list({
       auth: auth,
@@ -47,6 +65,23 @@ const getEvents = async (start, end, calendarId = "summer") => {
   } catch (error) {
     return console.log(`Error at getEvents --> ${error}`);
   }
+};
+
+/**
+ * Return all events from all calendars for the next 7 days
+ * @returns [] - Array of objects containing event details
+ */
+export const getNextWeeksEvents = async () => {
+  const [start, end] = [
+    moment().format(process.env.TIME_FORMAT),
+    moment().add(1, "week").format(process.env.TIME_FORMAT),
+  ];
+
+  return [
+    ...(await getEvents(start, end, "schedule")),
+    ...(await getEvents(start, end, "default")),
+    ...(await getEvents(start, end, "summer")),
+  ];
 };
 
 // Delete an event from eventID
@@ -79,5 +114,3 @@ const getEvents = async (start, end, calendarId = "summer") => {
 //     .catch((err) => {
 //         console.log(err);
 //     });
-
-module.exports = { insertEvent, getEvents };
