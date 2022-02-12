@@ -1,9 +1,9 @@
 import dotenv from "dotenv";
-dotenv.config();
+import moment from "moment";
 import { google } from "googleapis";
 import { auth } from "./auth.js";
 import { selectCalendar } from "../src/util.js";
-import moment from "moment";
+dotenv.config();
 
 // Google calendar API settings
 const calendar = google.calendar({ version: "v3" });
@@ -83,32 +83,32 @@ export const getAllComingEvents = async (end = null) => {
 };
 
 // Delete an event from eventID
-// const deleteEvent = async (eventId, calendarId = "summer") => {
-//     try {
-//         let response = await calendar.events.delete({
-//             auth: auth,
-//             calendarId: selectCalendar(calendarId),
-//             eventId: eventId,
-//         });
+const deleteEvent = async (eventId, calendarId = "summer") => {
+  try {
+    let response = await calendar.events.delete({
+      auth: auth,
+      calendarId: selectCalendar(calendarId),
+      eventId: eventId,
+    });
 
-//         if (response.data === "") {
-//             return 1;
-//         } else {
-//             return 0;
-//         }
-//     } catch (error) {
-//         console.log(`Error at deleteEvent --> ${error}`);
-//         return 0;
-//     }
-// };
+    if (response.data === "") {
+      return 1;
+    } else {
+      return 0;
+    }
+  } catch (error) {
+    console.log(`Error at deleteEvent --> ${error}`);
+    return 0;
+  }
+};
 
 // retrieve eventId from getEvents response
-// let eventId = "4gf800a4uh2vc5sriufskv7c50";
+// let eventId = "46bup8cotti04a077mu7pl1t9f_20220214T053000Z";
 
 // deleteEvent(eventId)
-//     .then((res) => {
-//         console.log(res);
-//     })
-//     .catch((err) => {
-//         console.log(err);
-//     });
+//   .then((res) => {
+//     console.log(res);
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });

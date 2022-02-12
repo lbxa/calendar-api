@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+import moment from "moment";
 dotenv.config();
 
 export const selectCalendar = (calenderId) => {
@@ -11,11 +12,10 @@ export const selectCalendar = (calenderId) => {
 };
 
 // print more compact calendar information
-export const printc = (calendarEntry) => {
-  console.log(
-    `${calendarEntry.summary} (${
-      (calendarEntry.organizer && calendarEntry.organizer.displayName) ||
-      "Default"
-    })`
-  );
+export const printc = ({ summary, start = "", end = "" }) => {
+  const startDate = moment(start.dateTime, process.env.TIME_FORMAT);
+  const endDate = moment(end.dateTime, process.env.TIME_FORMAT);
+  const diff = moment.utc(endDate.diff(startDate)).format("HH:mm");
+
+  console.table({ summary, duration: diff + " hours" });
 };
